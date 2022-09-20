@@ -130,6 +130,7 @@ class InventoryController extends Controller
 	{
 		$model=new Inventory('search');
 		$model->unsetAttributes();  // clear any default values
+		$model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
 		if(isset($_GET['Inventory']))
 			$model->attributes=$_GET['Inventory'];
 

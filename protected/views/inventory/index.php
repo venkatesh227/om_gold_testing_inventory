@@ -14,7 +14,12 @@ $('.search-form form').submit(function(){
 	return false;
 });
 
-$('#Inventory_dtInventoryDate').daterangepicker();  
+$('#Inventory_dtInventoryDate').daterangepicker({
+	maxDate: new Date(),
+	locale: {
+		format: 'YYYY/MM/DD'
+	},
+});  
 
 $(document).on('click','#downloadExcel',function(){
     //downloadExcel(this);

@@ -13,7 +13,8 @@ Yii::app()->clientScript->registerScript('search', "
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss'
 		},
-		autoApply: true,	     
+		autoApply: true,
+		maxDate: new Date() 
 	});	 
 	function toggleInventoryType(){
 		inventoryTypeVal = $('#Inventory_iType').val();

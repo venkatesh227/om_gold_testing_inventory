@@ -17,10 +17,12 @@
 	)); 
 ?>
 	<div class="row col-12">
+		<?php /*?>
 		<div class="col-3">
 			<?php echo $form->label($model,'dtInventoryDate',array('class'=>'control-label')); ?>
 			<?php echo $form->textField($model,'dtInventoryDate',array('class'=>'form-control')); ?>
 		</div>
+		<?php */?>
 
 		<div class="col-3">
 			<?php echo $form->label($model,'iProductID',array('class'=>'control-label')); ?>

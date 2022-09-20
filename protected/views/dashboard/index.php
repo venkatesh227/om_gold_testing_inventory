@@ -6,7 +6,7 @@ $('.search-form form').submit(function(){
     });
     return false;
 });
-$('#Inventory_dtInventoryDate').daterangepicker();  
+//$('#Inventory_dtInventoryDate').daterangepicker();  
 
 $(document).on('click','#downloadExcel',function(){
     //downloadExcel(this);

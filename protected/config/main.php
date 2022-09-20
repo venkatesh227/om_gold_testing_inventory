@@ -14,7 +14,7 @@ return array(
 	'timeZone' => 'Asia/Kolkata',
 
 	//theme installation
-	'theme'=>'admin',
+	'theme'=>'common',
 
 	//default controlelr
 	'defaultController'=>'dashboard/index',

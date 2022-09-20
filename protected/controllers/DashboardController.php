@@ -9,7 +9,7 @@ class DashboardController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Inventory']))
 			$model->attributes=$_GET['Inventory'];
-
+        $model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
 		$this->render('index',array(
 			'model'=>$model,
 			'summary'=>$summary
@@ -43,7 +43,7 @@ class DashboardController extends Controller
 		if(isset($_GET['Inventory'])) {
 			$model->attributes=$_GET['Inventory'];
 		}
-
+        $model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
 		$dp = $model->search();
 		$csvData = array();
 		//$csvData[] = $headerLabel;
