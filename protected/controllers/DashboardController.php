@@ -40,10 +40,10 @@ class DashboardController extends Controller
 
 		$model=new Inventory('search');
 		$model->unsetAttributes();  // clear any default values
+        $model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
 		if(isset($_GET['Inventory'])) {
 			$model->attributes=$_GET['Inventory'];
 		}
-        $model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
 		$dp = $model->search();
 		$csvData = array();
 		//$csvData[] = $headerLabel;
@@ -66,5 +66,18 @@ class DashboardController extends Controller
 		$output = $csv->toCSV();
 		Yii::app()->getRequest()->sendFile($filename, $output, "text/csv", false);
 		die();
-	}	
+	}
+
+	public function actionDownloadPdf(){
+		$model=new Inventory('search');
+		$model->unsetAttributes();  // clear any default values
+        //$model->noPagination = true;
+        $model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
+		if(isset($_GET['Inventory']))
+			$model->attributes=$_GET['Inventory'];
+
+		$this->render('_downloadpdf',array(
+			'model'=>$model,
+		));
+	}
 }

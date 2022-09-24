@@ -36,6 +36,20 @@ $(document).on('click','#downloadExcel',function(){
     document.body.removeChild(downloadLink); 
 });
 
+$(document).on('click','#downloadPdf',function(){
+    var downloadLink = document.createElement('a');
+    var selInventoryDate = $('#Inventory_dtInventoryDate').val();
+    var selInventoryPID = $('#Inventory_iProductID').val();
+    var selInventoryType = $('#Inventory_iType').val();
+    var selCustomerID = $('#Inventory_iCustomerID').val();
+    var params = '?Inventory[dtInventoryDate]='+selInventoryDate+'&Inventory[iProductID]='+selInventoryPID+'&Inventory[iType]='+selInventoryType+'&Inventory[iCustomerID]='+selCustomerID+'&downloadExport=true'
+    downloadLink.href = '".Yii::app()->createUrl('dashboard/downloadpdf')."'+params;
+    downloadLink.target = '_blank';
+    document.body.appendChild(downloadLink); 
+    downloadLink.click();
+    document.body.removeChild(downloadLink); 
+});
+
 ");
 ?>
 

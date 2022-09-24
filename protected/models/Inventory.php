@@ -145,6 +145,9 @@ class Inventory extends CActiveRecord
 		if(isset($_GET['downloadExport']) && $_GET['downloadExport']) {
 			$dataCriteria = array(
 				'criteria'=>$criteria,
+				'pagination'=>array(
+		        	'pageSize'=>$this->count($criteria),
+		    	),			
 				'sort'=>array(
 					'defaultOrder'=>'t.iID desc',
 				)

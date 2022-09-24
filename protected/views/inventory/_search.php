@@ -45,7 +45,7 @@
 		</div>
 	</div>
 	<div class="row col-12 mt-2">
-		<div class="col-3 buttons">
+		<div class="col-6 buttons">
 			<?php //echo CHtml::submitButton('Search'); ?>
 			<button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1">
 	            <i class="fas fa-search fa-sm text-white-50"></i> 
@@ -59,10 +59,10 @@
 	            <i class="fas fa-download fa-sm text-white-50"></i> 
 	            Download Excel
 	        </button>
-	        <!-- <button type="button" id="downloadPdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">
+	        <button type="button" id="downloadPdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">
 	            <i class="fas fa-download fa-sm text-white-50"></i> 
 	            Download PDF
-	        </button> -->
+	        </button>
 		</div>
 	</div>
 
