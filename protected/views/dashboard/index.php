@@ -9,6 +9,10 @@ $('.search-form form').submit(function(){
 //$('#Inventory_dtInventoryDate').daterangepicker();  
 
 $(document).on('click','#downloadExcel',function(){
+    if($('.empty').length){
+        alert('No records to download');
+        return false;
+    }
     var downloadLink = document.createElement('a');
     var selInventoryDate = $('#Inventory_dtInventoryDate').val();
     var selInventoryPID = $('#Inventory_iProductID').val();
@@ -23,6 +27,10 @@ $(document).on('click','#downloadExcel',function(){
 });
 
 $(document).on('click','#downloadPdf',function(){
+    if($('.empty').length){
+        alert('No records to download');
+        return false;
+    }
     var downloadLink = document.createElement('a');
     var selInventoryDate = $('#Inventory_dtInventoryDate').val();
     var selInventoryPID = $('#Inventory_iProductID').val();
