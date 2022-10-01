@@ -40,6 +40,10 @@
 		<td><?php echo $model->iTouch;?></td>
 	</tr>
 	<tr>
+		<td>Wastage</td>
+		<td><?php echo $model->iWastage;?></td>
+	</tr>
+	<tr>
 		<td>Final Weight (in gms)</td>
 		<td><?php echo $model->iFinalGrams;?></td>
 	</tr>

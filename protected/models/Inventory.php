@@ -16,6 +16,7 @@
  */
 class Inventory extends CActiveRecord
 {
+	public $showAllRecords = false;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -39,10 +40,11 @@ class Inventory extends CActiveRecord
 			array('iWeight,iTouch,iWastage,iFinalGrams,iInput', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('iID, iProductID, dtInventoryDate, iWeight, iType, iCustomerID, iStatus, dtCreatedOn, dtModifiedOn', 'safe', 'on'=>'search'),
+			array('iID, iProductID, dtInventoryDate, iWeight, iType, iCustomerID, iStatus, dtCreatedOn, dtModifiedOn, showAllRecords', 'safe', 'on'=>'search'),
 			//array('iCustomerID', 'required','on'=>'insert_out,update_out'),
 			array('iCustomerID', 'customerIDValidation'),
 			array('iTouch','touchValidation'),
+			array('iWeight','customBalanceCheck'),
 		);
 	}
 
@@ -142,7 +144,7 @@ class Inventory extends CActiveRecord
 
 		);
 
-		if(isset($_GET['downloadExport']) && $_GET['downloadExport']) {
+		if((isset($_GET['downloadExport']) && $_GET['downloadExport']) || $this->showAllRecords) {
 			$dataCriteria = array(
 				'criteria'=>$criteria,
 				'pagination'=>array(
@@ -180,22 +182,68 @@ class Inventory extends CActiveRecord
 		}
 	}
 
-	public function summary()
+	public function summary($payload=[])
 	{
 		$returnSummary = [
 			"1-1"=>0,
 			"1-2"=>0,
-			"2-1"=>0,
-			"2-2"=>0,
+			"1-3"=>0,
 		];
+		if(isset(Yii::app()->params['products'][2])){
+			$returnSummary ["2-1"]=0;
+			$returnSummary ["2-2"]=0;
+			$returnSummary ["2-3"]=0;
+		}
 		$criteria = new CDbCriteria();
-		$criteria->select = 'iProductID,sum(iWeight) AS iWeight,iType'; 
+		$criteria->select = 'iProductID,sum(iWeight) AS iWeight,iType,sum(iFinalGrams) As iFinalGrams'; 
 		$criteria->group = 'iProductID,iType';
-		$criteria->condition = "(dtInventoryDate between '".Date('Y-m-d 00:00:00')."' and '".Date('Y-m-d 23:59:59')."') and iStatus='1'";
+		
+		if(isset($payload['prv']) && $payload['prv'])
+			$criteria->condition = "date(dtInventoryDate)<'".date('Y-m-d')."' and iStatus='1'";
+		else			
+			$criteria->condition = "(dtInventoryDate between '".Date('Y-m-d 00:00:00')."' and '".Date('Y-m-d 23:59:59')."') and iStatus='1'";
+
 		$summaryDetails = Inventory::model()->findAll($criteria);
 		foreach ($summaryDetails as $key => $value) {
-			$returnSummary[$value->iProductID."-".$value->iType] = $value->iWeight;
+			$setKey = $value->iProductID."-".$value->iType;
+			if($value->iType!='2'){ // In
+				$returnSummary[$setKey] = $value->iWeight;
+				if(isset($payload['prvSummary']) && $payload['prvSummary'] && isset($payload['prvSummary'][$setKey])){
+					$returnSummary[$setKey]+=$payload['prvSummary'][$setKey];
+				}
+			}
+			else{//Out
+				$returnSummary[$setKey] = $value->iFinalGrams;
+			}
+
 		}
+		
+		$returnSummary['1-3'] =$returnSummary['1-1']-$returnSummary['1-2'];
+
+		if(isset(Yii::app()->params['products'][2])){
+			$returnSummary['2-3'] =$returnSummary['2-1']-$returnSummary['2-2'];
+		}
+
 		return $returnSummary;
 	}
+
+	public function getTotal($records, $columns)
+    {
+        $total = array();
+        foreach ($records as $record) {
+            foreach ($columns as $column) {
+                  if(!isset($total[$column]))$total[$column]=0;
+                  $total[$column] += $record->$column;
+            }
+        }
+        return $total;
+    }
+    public function customBalanceCheck($attributes,$params){
+		$prvSummary = Inventory::summary(['prv'=>true]);
+		$summary = Inventory::summary(['prvSummary'=>$prvSummary]);
+		$avilableBalance = $summary[$this->iProductID.'-3']; 
+		if($this->iWeight>$avilableBalance && $this->iType==2){
+			return $this->addError('iWeight', 'Entered Weight is not avilable, avilable balance is : '.$avilableBalance);
+		}
+    }
 }

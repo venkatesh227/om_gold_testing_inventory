@@ -21,10 +21,12 @@ Yii::app()->clientScript->registerScript('search', "
 		if(inventoryTypeVal==2){
 			$('#toggleCustomerInfo').show();
 			$('#toggleTouch').show();
+			$('#toggleWastage').show();
 		}
 		else{
 			$('#toggleCustomerInfo').hide();
 			$('#toggleTouch').hide();
+			$('#toggleWastage').hide();
 		}
 	}
 	$(document).on('change','#Inventory_iType',function(){
@@ -56,7 +58,7 @@ Yii::app()->clientScript->registerScript('search', "
 
 	<!-- <p class="note">Fields with <span class="required">*</span> are required.</p>-->
 
-	<?php echo $form->errorSummary($model); ?> 
+	<?php //echo $form->errorSummary($model); ?> 
 
 	<div class="row">
 		<div class="col-6 form-group"> 
@@ -102,6 +104,16 @@ Yii::app()->clientScript->registerScript('search', "
 			<?php echo $form->labelEx($model,'iTouch',array('class'=>'control-label')); ?>
 			<?php echo $form->textField($model,'iTouch',array('size'=>20,'maxlength'=>20,'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'iTouch'); ?>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6 form-group" id="toggleWastage"> 
+			<?php echo $form->labelEx($model,'iWastage',array('class'=>'control-label')); ?>
+			<?php //echo $form->textField($model,'iWastage',array('size'=>20,'maxlength'=>20,'class'=>'form-control')); ?>
+			<?php
+				echo $form->dropDownList($model,'iWastage', Yii::app()->params['productWastage'], array('class'=>'form-control')); 
+				?>
+			<?php echo $form->error($model,'iWastage'); ?>
 		</div>
 	</div>
 

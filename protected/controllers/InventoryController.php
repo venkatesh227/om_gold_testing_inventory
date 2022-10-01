@@ -31,6 +31,11 @@ class InventoryController extends Controller
 		$model->dtInventoryDate = date('Y-m-d H:i:s');
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		/*Start : Default value setup*/
+		$model->iProductID=1;
+		$model->iType=2;
+		$model->iWastage="0.50";
+		/*End : Default value setup*/
 		if(isset($_POST['Inventory']))
 		{
 			$model->attributes=$_POST['Inventory'];
@@ -42,7 +47,7 @@ class InventoryController extends Controller
 				$model->iTouch = NULL;
 			}
 			else if($model->iType==2 && $model->iWeight && $model->iTouch){
-				$model->iWastage = Yii::app()->params['productWastage'];
+				//$model->iWastage = Yii::app()->params['productWastage'];
 				$making = $model->iTouch - $model->iWastage;
 				$model->iInput = ($model->iWeight * $model->iTouch)/100;
 				$model->iFinalGrams = ($model->iWeight * $making)/100;
@@ -84,7 +89,7 @@ class InventoryController extends Controller
 				$model->iTouch = NULL;
 			}
 			else if($model->iType==2 && $model->iWeight && $model->iTouch){
-				$model->iWastage = Yii::app()->params['productWastage'];
+				//$model->iWastage = Yii::app()->params['productWastage'];
 				$making = $model->iTouch - $model->iWastage;
 				$model->iInput = $model->iWeight - $making;
 				$model->iFinalGrams = ($model->iWeight * $making)/100;

@@ -110,11 +110,12 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-		'products'=>[1=>'Gold',2=>'Silver'],
+		'products'=>[1=>'Gold',/*2=>'Silver'*/],
 		'inventoryTypes'=>[1=>'In Stock',2=>'Out Stock'],
 		'inventoryTypesShort'=>[1=>'In',2=>'Out'],
+		'dashboardSummaryNames'=>[1=>'In',2=>'Out',3=>"Balanace"],
 		'pagenationLimit'=>20,
-		'productWastage'=>0.500,
+		'productWastage'=>["0.05"=>'0.05',"0.50"=>"0.50"],
 	),
 );
 

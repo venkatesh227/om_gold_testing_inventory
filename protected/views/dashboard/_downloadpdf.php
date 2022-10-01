@@ -9,7 +9,7 @@
                             'name'=>'iID',
                             'filter'=>false
                         ),
-                        'iProductID'=>array(
+                        /*'iProductID'=>array(
                             'name'=>'iProductID',
                             'value'=>function($data){
                                 return Yii::app()->params['products'][$data->iProductID];
@@ -17,7 +17,7 @@
                             'filter' => CHtml::activeDropDownList($model, 'iProductID', Yii::app()->params['products'],
                                 array('empty' => 'All')
                             )
-                        ),
+                        ),*/
                         'iWeight'=>array(
                             'name'=>'iWeight',
                             'filter'=>false
