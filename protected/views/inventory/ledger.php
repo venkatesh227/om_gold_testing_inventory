@@ -76,7 +76,7 @@ $('#Inventory_dtInventoryDate').daterangepicker({
 									<td><?php echo $dataValue->iTouch;?></td>
 									<td><?php echo $dataValue->iInput;?></td>
 									<td><?php echo $dataValue->iFinalGrams;?></td>
-									<td>&nbsp;</td>
+									<td><?php echo ($dataValue->customer)?$dataValue->customer->vcName:"";?></td>
 									<th class="text-right"><?php echo $total; ?></th>
 								</tr>
 						<?php		
