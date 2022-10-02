@@ -106,6 +106,12 @@
         </a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="<?php echo Yii::app()->createUrl('inventory/ledger');?>">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Inventory Ledger</span>
+        </a>
+      </li>
+      <li class="nav-item active">
         <a class="nav-link" href="<?php echo Yii::app()->createUrl('customer/create');?>">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Add Customer</span>

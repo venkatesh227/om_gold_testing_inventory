@@ -17,6 +17,8 @@
 class Inventory extends CActiveRecord
 {
 	public $showAllRecords = false;
+	public $sortingAsc = false;
+	public $total;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -40,7 +42,7 @@ class Inventory extends CActiveRecord
 			array('iWeight,iTouch,iWastage,iFinalGrams,iInput', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('iID, iProductID, dtInventoryDate, iWeight, iType, iCustomerID, iStatus, dtCreatedOn, dtModifiedOn, showAllRecords', 'safe', 'on'=>'search'),
+			array('iID, iProductID, dtInventoryDate, iWeight, iType, iCustomerID, iStatus, dtCreatedOn, dtModifiedOn, showAllRecords, total', 'safe', 'on'=>'search'),
 			//array('iCustomerID', 'required','on'=>'insert_out,update_out'),
 			array('iCustomerID', 'customerIDValidation'),
 			array('iTouch','touchValidation'),
@@ -139,7 +141,7 @@ class Inventory extends CActiveRecord
 	        	'pageSize'=>Yii::app()->params['pagenationLimit'],
 	    	),			
 			'sort'=>array(
-				'defaultOrder'=>'t.iID desc',
+				'defaultOrder'=>($this->sortingAsc)?'t.dtInventoryDate':'t.iID desc',
 			)
 
 		);
@@ -151,7 +153,7 @@ class Inventory extends CActiveRecord
 		        	'pageSize'=>$this->count($criteria),
 		    	),			
 				'sort'=>array(
-					'defaultOrder'=>'t.iID desc',
+					'defaultOrder'=>($this->sortingAsc)?'t.dtInventoryDate':'t.iID desc',
 				)
 			);
 		}
@@ -198,24 +200,36 @@ class Inventory extends CActiveRecord
 		$criteria->select = 'iProductID,sum(iWeight) AS iWeight,iType,sum(iFinalGrams) As iFinalGrams'; 
 		$criteria->group = 'iProductID,iType';
 		
-		if(isset($payload['prv']) && $payload['prv'])
-			$criteria->condition = "date(dtInventoryDate)<'".date('Y-m-d')."' and iStatus='1'";
-		else			
+		if(isset($payload['prv']) && $payload['prv']){
+			$conditionDate = (isset($payload['prvDate']) && $payload['prvDate'])?$payload['prvDate']:date('Y-m-d');
+			$criteria->condition = "date(dtInventoryDate)<'".$conditionDate."' and iStatus='1'";
+		}
+		else{
 			$criteria->condition = "(dtInventoryDate between '".Date('Y-m-d 00:00:00')."' and '".Date('Y-m-d 23:59:59')."') and iStatus='1'";
+		}
 
 		$summaryDetails = Inventory::model()->findAll($criteria);
 		foreach ($summaryDetails as $key => $value) {
 			$setKey = $value->iProductID."-".$value->iType;
 			if($value->iType!='2'){ // In
 				$returnSummary[$setKey] = $value->iWeight;
-				if(isset($payload['prvSummary']) && $payload['prvSummary'] && isset($payload['prvSummary'][$setKey])){
-					$returnSummary[$setKey]+=$payload['prvSummary'][$setKey];
-				}
 			}
 			else{//Out
 				$returnSummary[$setKey] = $value->iFinalGrams;
 			}
 
+		}
+
+		// previous Summary Adding to current day summary
+		if(isset($payload['prvSummary']) && $payload['prvSummary']){
+			$returnSummary['1-1']+=$payload['prvSummary']['1-3'];
+			if(isset(Yii::app()->params['products'][2])){
+				$returnSummary['2-1']+=$payload['prvSummary']['2-3'];
+			}
+
+			/*foreach ($payload['prvSummary'] as $pvrKey => $pvrValue) {
+				$returnSummary[$pvrKey]+=$pvrValue;
+			}*/
 		}
 		
 		$returnSummary['1-3'] =$returnSummary['1-1']-$returnSummary['1-2'];

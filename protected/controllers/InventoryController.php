@@ -171,4 +171,32 @@ class InventoryController extends Controller
 			Yii::app()->end();
 		}
 	}
+	public function actionLedger()
+	{
+
+		$model=new Inventory('search');
+		$model->unsetAttributes();  // clear any default values
+        $model->dtInventoryDate = date("Y/m/d")." - ".date("Y/m/d");
+        $model->sortingAsc=true;
+        $searchDate = "";
+		if(isset($_GET['Inventory'])){
+			$model->attributes=$_GET['Inventory'];
+			if($_GET['Inventory']['dtInventoryDate']){
+				$searchDate = explode(' - ',$_GET['Inventory']['dtInventoryDate']);
+			}
+		}
+
+		$summary = Inventory::summary(
+			[
+				'prv'=>true,
+				'prvDate'=>($searchDate)?$searchDate[0]:''
+			]
+		);
+
+		$this->render('ledger',array(
+			'model'=>$model,
+			'summary'=>$summary,
+
+		));
+	}
 }

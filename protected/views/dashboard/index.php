@@ -123,22 +123,22 @@ $('.summary').parent().hide();
                         'iWeight'=>array(
                             'name'=>'iWeight',
                             'filter'=>false,
-                            'footer'=>number_format($Totals['iWeight'],2),
+                            'footer'=>($Totals)?number_format($Totals['iWeight'],2):false,
                         ),
                         'iTouch'=>array(
                             'name'=>'iTouch',
                             'filter'=>false,
-                            'footer'=>number_format($Totals['iInput']-$Totals['iFinalGrams'],2),    
+                            'footer'=>($Totals)?number_format($Totals['iInput']-$Totals['iFinalGrams'],2):false,    
                         ),
                         'iInput'=>array(
                             'name'=>'iInput',
                             'filter'=>false,
-                            'footer'=>number_format($Totals['iInput'],2),
+                            'footer'=>($Totals)?number_format($Totals['iInput'],2):false,
                         ),
                         'iFinalGrams'=>array(
                             'name'=>'iFinalGrams',
                             'filter'=>false,
-                            'footer'=>number_format($Totals['iFinalGrams'],2)
+                            'footer'=>($Totals)?number_format($Totals['iFinalGrams'],2):false,
                         ),
                        // 'dtInventoryDate',
                         /*'iType'=>array(

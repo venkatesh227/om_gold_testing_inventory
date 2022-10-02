@@ -29,3 +29,11 @@
   background-color: #4e73df;
   border-color: #4e73df;
 }
+
+#downloadLedger .table, 
+#downloadLedger .table thead th, 
+#downloadLedger .table-bordered td,
+#downloadLedger .table-bordered th
+{
+  border: 2px solid #e3e6f0 !important;
+}
