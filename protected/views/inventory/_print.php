@@ -27,10 +27,10 @@
 		<td>Phone Number</td>
 		<td><?php echo $model->customer->iPhoneNumber;?></td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<td>Product</td>
 		<td><?php echo Yii::app()->params['products'][$model->iProductID];?></td>
-	</tr>
+	</tr> -->
 	<tr>
 		<td>Weight (in gms)</td>
 		<td><?php echo $model->iWeight;?></td>
