@@ -8,7 +8,7 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 
-	'name'=>'OM Silver & Gold Testing',
+	'name'=>'OM Gold Testing',
 
 	// time zone
 	'timeZone' => 'Asia/Kolkata',

@@ -150,6 +150,11 @@ $('.summary').parent().hide();
                                 array('empty' => 'All')
                             )
                         ),*/
+                        'iAdjustment'=>array(
+                            'name'=>'Adjustment',
+                            'filter'=>false,
+                            
+                        ),
                         'iCustomerID'=>array(
                             'name'=>'iCustomerID',
                             'value'=>function($data){

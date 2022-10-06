@@ -36,6 +36,7 @@ class DashboardController extends Controller
 			'iTouch',
 			'iInput',
 			'iFinalGrams',
+			'Adjustment',
 			'iCustomerID',
 		);
 		$headerLabel = array();
@@ -65,6 +66,7 @@ class DashboardController extends Controller
 			$rowData[] = $value->iTouch;
 			$rowData[] = $value->iInput;
 			$rowData[] = $value->iFinalGrams;
+			$rowData[] = "";
 			$rowData[] = ($value->customer)?$value->customer->vcName:"-";
 			
 			$totalWeight += $value->iWeight;
@@ -99,6 +101,7 @@ class DashboardController extends Controller
 			'iProductID',
 			'iType',
 			'iWeight',
+			'Adjustment',
 			'iCustomerID',
 		);
 		$headerLabel = array();
@@ -124,6 +127,7 @@ class DashboardController extends Controller
 			$rowData[] = Yii::app()->params['products'][$value->iProductID];
 			$rowData[] = Yii::app()->params['inventoryTypesShort'][$value->iProductID];
 			$rowData[] = $value->iWeight;
+			$rowData[] = "";
 			$rowData[] = ($value->customer)?$value->customer->vcName:"-";
 
 			$csvData[] = $rowData;
